@@ -8,7 +8,7 @@ import { BadRequestError, NotFoundError } from "../shared/middlewares/error";
 class CarrinhoServices extends BaseService<Carrinho> {
     constructor(
         @inject(CarrinhoRepository)
-        private carrinhoRepository: CarrinhoRepository
+        private readonly carrinhoRepository: CarrinhoRepository
     ) {
         super(carrinhoRepository);
     }

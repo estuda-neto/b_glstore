@@ -6,7 +6,7 @@ import Categoria from "../models/categoria";
 @injectable()
 class CategoriaServices extends BaseService<Categoria>{
 
-    constructor(@inject(CategoriaRepository) private categoriaRepository:CategoriaRepository){
+    constructor(@inject(CategoriaRepository) private readonly categoriaRepository:CategoriaRepository){
         super(categoriaRepository);
     }
 }

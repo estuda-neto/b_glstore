@@ -1,12 +1,11 @@
-import { inject } from "inversify";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { Controller } from "./base.controller";
 import { NextFunction, Request, Response} from "express";
 import CategoriaServices from "../services/categorias.service";
 
 @injectable()
 class CategoriaController extends Controller{
-    constructor(@inject(CategoriaServices) private categoriaServices: CategoriaServices) {
+    constructor(@inject(CategoriaServices) private readonly categoriaServices: CategoriaServices) {
         super();
     }
     public async listarTodos(req: Request, res: Response, next: NextFunction): Promise<void> {

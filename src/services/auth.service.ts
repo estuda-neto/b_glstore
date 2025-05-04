@@ -11,7 +11,7 @@ class AuthServices {
     private JWT_SECRET = process.env.JWT_SECRET!;
     private JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET!;
 
-    constructor(@inject(UsuarioRepository) private usuarioRepository: UsuarioRepository) {
+    constructor(@inject(UsuarioRepository) private readonly usuarioRepository: UsuarioRepository) {
         dotenv.config();
     }
 

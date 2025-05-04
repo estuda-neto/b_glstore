@@ -10,8 +10,8 @@ type AtualizavelProdutoVariacao = Partial<Pick<ProdutoVariacao,'preco' | 'tamanh
 @injectable()
 class ProdutoVariacaoServices extends BaseService<ProdutoVariacao> {
     constructor(
-      @inject(ProdutoVariacaoRepository) private produtoVaricaoRepository: ProdutoVariacaoRepository,
-      @inject(ProdutoServices) private produtoServices: ProdutoServices,
+      @inject(ProdutoVariacaoRepository) private readonly produtoVaricaoRepository: ProdutoVariacaoRepository,
+      @inject(ProdutoServices) private readonly produtoServices: ProdutoServices,
     ) {
         super(produtoVaricaoRepository);
     }

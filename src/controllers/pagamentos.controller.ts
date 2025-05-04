@@ -1,12 +1,11 @@
-import { inject } from "inversify";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { Controller } from "./base.controller";
 import { NextFunction, Request, Response} from "express";
 import PagamentoServices from "../services/pagamentos.service";
 
 @injectable()
 class PagamentoController extends Controller{
-    constructor(@inject(PagamentoServices) private pagamentoServices: PagamentoServices) {
+    constructor(@inject(PagamentoServices) private readonly pagamentoServices: PagamentoServices) {
         super();
     }
     public async listarTodos(req: Request, res: Response, next: NextFunction): Promise<void> {

@@ -9,8 +9,8 @@ import CategoriaServices from "./categorias.service";
 @injectable()
 class ProdutoServices extends BaseService<Produto> {
   constructor(
-    @inject(ProdutoRepository) private produtoRepository: ProdutoRepository,
-    @inject(CategoriaServices) private categoriaServices: CategoriaServices
+    @inject(ProdutoRepository) private readonly produtoRepository: ProdutoRepository,
+    @inject(CategoriaServices) private readonly categoriaServices: CategoriaServices
   ) {
     super(produtoRepository);
   }

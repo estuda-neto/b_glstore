@@ -1,5 +1,4 @@
-import { inject } from "inversify";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { Controller } from "./base.controller";
 import { NextFunction, Request, Response } from "express";
 import { BadRequestError, NotFoundError } from "../shared/middlewares/error";
@@ -7,7 +6,7 @@ import { ColecaoServices } from "../services";
 
 @injectable()
 class ColecaoController extends Controller {
-  constructor(@inject(ColecaoServices) private colecaoServices: ColecaoServices) {
+  constructor(@inject(ColecaoServices) private readonly colecaoServices: ColecaoServices) {
     super();
   }
   

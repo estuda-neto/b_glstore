@@ -16,9 +16,9 @@ import bcrypt from "bcrypt";
 @injectable()
 class UsuarioServices extends BaseService<Usuario> {
   constructor(
-    @inject(UsuarioRepository) private usuarioRepository: UsuarioRepository,
-    @inject(EmailServices) private emailServices: EmailServices,
-    @inject(TokenServices) private tokenServices: TokenServices
+    @inject(UsuarioRepository) private readonly usuarioRepository: UsuarioRepository,
+    @inject(EmailServices) private readonly emailServices: EmailServices,
+    @inject(TokenServices) private readonly tokenServices: TokenServices
   ) {
     super(usuarioRepository);
   }

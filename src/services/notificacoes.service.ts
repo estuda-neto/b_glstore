@@ -8,7 +8,7 @@ import { CreateNotificacaoDtoType } from "../shared/dtos/notificacao.dto";
 @injectable()
 class NotificacaoServices extends BaseService<Notificacao>{
 
-    constructor(@inject(NotificacaoRepository) private notificacaoRepository:NotificacaoRepository){
+    constructor(@inject(NotificacaoRepository) private readonly notificacaoRepository:NotificacaoRepository){
         super(notificacaoRepository);
     }
     

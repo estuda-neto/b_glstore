@@ -9,8 +9,8 @@ import Carrinho from "../models/carrinho";
 @injectable()
 class PedidoServices extends BaseService<Pedido> {
     constructor(
-      @inject(PedidoRepository) private pedidoRepository: PedidoRepository,
-      @inject(CarrinhoServices) private carrinhoServices: CarrinhoServices
+      @inject(PedidoRepository) private readonly pedidoRepository: PedidoRepository,
+      @inject(CarrinhoServices) private readonly carrinhoServices: CarrinhoServices
     ) {
         super(pedidoRepository);
     }

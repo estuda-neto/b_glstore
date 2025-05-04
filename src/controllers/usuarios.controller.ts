@@ -1,5 +1,4 @@
-import { inject } from "inversify";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import UsuarioServices from "../services/usuarios.service";
 import { Controller } from "./base.controller";
 import { NextFunction, Request, Response } from "express";
@@ -10,8 +9,8 @@ import { BadRequestError, NotFoundError } from "../shared/middlewares/error";
 @injectable()
 class UsuarioController extends Controller {
     constructor(
-        @inject(UsuarioServices) private usuarioServices: UsuarioServices,
-        @inject(AuthServices) private authService: AuthServices
+        @inject(UsuarioServices) private readonly usuarioServices: UsuarioServices,
+        @inject(AuthServices) private readonly authService: AuthServices
     ) {
         super();
     }
@@ -37,10 +36,8 @@ class UsuarioController extends Controller {
         await Controller.tryCatch(
             async (req, res) => {
                 const { email } = req.body;
-                const enviou = this.usuarioServices.sendEmailWithHashResetPassword(email);
-                if (!enviou) {
-                    throw new NotFoundError("Algum erro ocorreu");
-                }
+                const enviou = await this.usuarioServices.sendEmailWithHashResetPassword(email);
+                if (!enviou) throw new NotFoundError("Algum erro ocorreu");
                 res.status(200).json({ enviado: enviou });
             },req,res,next);
     }

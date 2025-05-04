@@ -10,7 +10,7 @@ import path from "path";
 
 @injectable()
 class ColecaoServices extends BaseService<Colecao> {
-  constructor(@inject(ColecaoRepository) private colecaoRepository: ColecaoRepository) {
+  constructor(@inject(ColecaoRepository) private readonly colecaoRepository: ColecaoRepository) {
     super(colecaoRepository);
   }
 

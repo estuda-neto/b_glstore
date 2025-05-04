@@ -19,11 +19,11 @@ const app = express();
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use(
-    cors({
-        origin: "*",
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-    })
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
 );
 
 app.use(express.json());
@@ -39,40 +39,45 @@ app.use("/pagamentos", pagamentosRoutes);
 app.use("/colecoes", colecoesRoutes);
 
 const swaggerOptions = {
-    definition: {
-        openapi: "3.0.0",
-        info: {
-            title: "GlStore",
-            version: "1.0.0",
-            description:
-                "Uma aplicação backend para gerir dados de um aplicativo expo com RN",
-        },
-        components: {
-            securitySchemes: {
-                BearerAuth: {
-                    type: "http",
-                    scheme: "bearer",
-                    bearerFormat: "JWT",
-                },
-            },
-        },
-        security: [
-            {
-                BearerAuth: [],
-            },
-        ],
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "GlStore",
+      version: "1.0.0",
+      description:
+        "Uma aplicação backend para gerir dados de um aplicativo expo com RN",
     },
-    apis: ["./src/routes/*.ts"],
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        BearerAuth: [],
+      },
+    ],
+  },
+  apis: ["./src/routes/*.ts"],
 };
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-sequelize.sync({ alter: false }).then(() => {
+if (process.env.NODE_ENV !== "test") {
+  sequelize.sync({ alter: false }).then(() => {
     console.log("banco sincronizado!");
-});
+  });
 
-app.listen(3000, () => {
+  app.listen(3000, () => {
     console.log(
-        "API rodando no endereço http://localhost:3000 \n e documentação rodadndo em http://localhost:3000/api-docs/"
+      "API rodando no endereço http://localhost:3000 \n e documentação rodadndo em http://localhost:3000/api-docs/"
     );
-});
+  });
+}
+
+//export instance for test
+export default app;

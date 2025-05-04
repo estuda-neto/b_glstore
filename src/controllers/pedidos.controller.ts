@@ -1,5 +1,4 @@
-import { inject } from "inversify";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { Controller } from "./base.controller";
 import { NextFunction, Request, Response} from "express";
 import PedidoServices from "../services/pedidos.service";
@@ -7,7 +6,7 @@ import { InternalServerError, NotFoundError } from "../shared/middlewares/error"
 
 @injectable()
 class PedidoController extends Controller{
-    constructor(@inject(PedidoServices) private pedidosServices: PedidoServices) {
+    constructor(@inject(PedidoServices) private readonly pedidosServices: PedidoServices) {
         super();
     }
     public async listarTodos(req: Request, res: Response, next: NextFunction): Promise<void> {

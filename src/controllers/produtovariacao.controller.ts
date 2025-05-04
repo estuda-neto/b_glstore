@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from "express";
 
 @injectable()
 class ProdutoVariacaoController extends Controller {
-    constructor(@inject(ProdutoVariacaoServices) private produtoVariacaoServices: ProdutoVariacaoServices) {
+    constructor(@inject(ProdutoVariacaoServices) private readonly produtoVariacaoServices: ProdutoVariacaoServices) {
         super();
     }
     public async listarTodas(req: Request,res: Response,next: NextFunction): Promise<void> {

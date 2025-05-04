@@ -1,5 +1,4 @@
-import { inject } from "inversify";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { Controller } from "./base.controller";
 import { NextFunction, Request, Response} from "express";
 import ProdutoServices from "../services/produtos.service";
@@ -8,7 +7,7 @@ import { InternalServerError } from "../shared/middlewares/error/internalservere
 
 @injectable()
 class ProdutoController extends Controller{
-    constructor(@inject(ProdutoServices) private produtoServices: ProdutoServices) {
+    constructor(@inject(ProdutoServices) private readonly produtoServices: ProdutoServices) {
         super();
     }
     public async listarTodos(req: Request, res: Response, next: NextFunction): Promise<void> {

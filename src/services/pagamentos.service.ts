@@ -15,11 +15,11 @@ import ProdutoVariacao from "../models/produtovariacao";
 @injectable()
 class PagamentoServices extends BaseService<Pagamento> {
     constructor(
-        @inject(PagamentoRepository) private pagamentoRepository: PagamentoRepository,
-        @inject(PedidoServices) private pedidosServices: PedidoServices,
-        @inject(ProdutoServices) private produtosServices: ProdutoServices,
-        @inject(ProdutoVariacaoServices) private produtosVariacoesServices: ProdutoVariacaoServices,
-        @inject(EfiPaymentService) private efiPaymentServices: EfiPaymentService
+        @inject(PagamentoRepository) private readonly pagamentoRepository: PagamentoRepository,
+        @inject(PedidoServices) private readonly pedidosServices: PedidoServices,
+        @inject(ProdutoServices) private readonly produtosServices: ProdutoServices,
+        @inject(ProdutoVariacaoServices) private readonly produtosVariacoesServices: ProdutoVariacaoServices,
+        @inject(EfiPaymentService) private readonly efiPaymentServices: EfiPaymentService
     ) {
         super(pagamentoRepository);
     }
