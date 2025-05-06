@@ -20,8 +20,6 @@ const setupAssociations = async () => {
             path.join(__dirname, "../../models/index")
         );
         setupRelationships();
-
-        console.log("Modelos e associações carregados com sucesso!");
     } catch (error) {
         console.error("Erro ao configurar associações:", error);
         process.exit(1);

@@ -23,9 +23,9 @@ class ColecaoController extends Controller {
     await Controller.tryCatch(
       async (req, res) => {
         const { id } = req.params;
-        const colecaos = await this.colecaoServices.getById(Number(id));
-        if (!colecaos) throw new NotFoundError("colecao não encontrado");
-        res.status(200).json(colecaos);
+        const colecao = await this.colecaoServices.getById(Number(id));
+        if (!colecao) throw new NotFoundError("colecao não encontrado");
+        res.status(200).json(colecao);
       },req,res,next
     );
   }
@@ -44,13 +44,8 @@ class ColecaoController extends Controller {
     await Controller.tryCatch(
       async (req, res) => {
         const { id } = req.params;
-        const atualizado = await this.colecaoServices.update(
-          Number(id),
-          req.body
-        );
-        if (!atualizado)
-          throw new NotFoundError("colecao não encontrado ou sem alterações");
-        res.status(200).json({ message: "colecao atualizado com sucesso" });
+        const atualizado = await this.colecaoServices.update(Number(id),req.body);
+        res.status(200).json(atualizado);
       },req,res,next
     );
   }

@@ -68,11 +68,11 @@ const categoriasController = container.get<CategoriaController>(CategoriaControl
 *   /categorias:
 *   get:
 *     summary: Lista todas categorias
-*     description: Retorna uma lista de todos os usuários cadastrados no sistema.
+*     description: Retorna uma lista de todas as categorias cadastradas no sistema.
 *     tags: [Categorias]
 *     responses:
 *       200:
-*         description: Lista de usuários
+*         description: Lista de categorias
 *         content:
 *           application/json:
 *             schema:
@@ -80,38 +80,23 @@ const categoriasController = container.get<CategoriaController>(CategoriaControl
 *               items:
 *                 type: object
 *                 properties:
-*                   usuarioId:
+*                   categoriaId:
 *                     type: integer
 *                     example: 1
 *                   nome:
 *                     type: string
-*                     example: "Clodoaldo"
-*                   cpf:
+*                     example: "Laticínios"
+*                   descricao:
 *                     type: string
-*                     example: "11600808441"
-*                   email:
-*                     type: string
-*                     example: "clodoaldo.brtp4@gmail.com"
-*                   password:
-*                     type: string
-*                     example: "$2b$12$O1KFtsD10osgIstnJ2h9DuNNIyX6rRvQR3kE29tLfvKX10UMAhf3q"
-*                   telefone:
-*                     type: string
-*                     example: "84999935813"
-*                   endereco:
-*                     type: string
-*                     example: "Rua Manoel Silvano 294"
-*                   tipoUsuario:
-*                     type: string
-*                     example: "admin"
+*                     example: "Produtos derivados do leite"
 *                   createdAt:
 *                     type: string
 *                     format: date-time
-*                     example: "2025-04-25T16:22:35.000Z"
+*                     example: "2025-05-05T22:51:39.000Z"
 *                   updatedAt:
 *                     type: string
 *                     format: date-time
-*                     example: "2025-04-25T16:22:35.000Z"
+*                     example: "2025-05-05T22:51:39.000Z"
 *       400:
 *         $ref: '#/components/responses/BadRequestError'
 *       401:
@@ -294,7 +279,7 @@ router.put("/:id", authenticate, authorize([TipoUsuario.ADMIN]),validateSchema(U
  *           type: integer
  *         description: ID da categoria a ser removida
  *     responses:
- *       204:
+ *       200:
  *         description: Categoria removida com sucesso (sem conteúdo)
  *       400:
  *         $ref: '#/components/responses/BadRequestError'

@@ -9,44 +9,32 @@ class CategoriaController extends Controller{
         super();
     }
     public async listarTodos(req: Request, res: Response, next: NextFunction): Promise<void> {
-        await Controller.tryCatch(async (req, res, next) => {
+        await Controller.tryCatch(async (req, res) => {
             const categorias = await this.categoriaServices.getAll();
-            if(!categorias){
-                return next(new Error('Algum erro ocorreu'));
-            }
             res.status(200).json(categorias);
         }, req, res, next);
     }
 
     public async buscarPorId(req: Request, res: Response, next: NextFunction): Promise<void> {
-        await Controller.tryCatch(async (req, res, next) => {
+        await Controller.tryCatch(async (req, res) => {
             const { id } = req.params;
             const categorias = await this.categoriaServices.getById(Number(id));
-            if (!categorias) {
-                return next(new Error('categoria não encontrado'));
-            }
             res.status(200).json(categorias);
         }, req, res, next);
     }
 
     public async cadastrar(req: Request, res: Response, next: NextFunction): Promise<void> {
-        await Controller.tryCatch(async (req, res, next) => {
+        await Controller.tryCatch(async (req, res) => {
             const categoria = await this.categoriaServices.create(req.body);
-            if (!categoria) {
-                return next(new Error('Erro ao criar categoria'));
-            }
             res.status(201).json(categoria);
         }, req, res, next);
     }
 
     public async atualizarcategoria(req: Request, res: Response, next: NextFunction): Promise<void> {
-        await Controller.tryCatch(async (req, res, next) => {
+        await Controller.tryCatch(async (req, res) => {
             const { id } = req.params;
             const atualizado = await this.categoriaServices.update(Number(id), req.body);
-            if (!atualizado) {
-                return next(new Error('categoria não encontrado ou sem alterações'));
-            }
-            res.status(200).json({ message: "categoria atualizado com sucesso" });
+            res.status(200).json(atualizado);
         }, req, res, next);
     }
 
@@ -54,7 +42,7 @@ class CategoriaController extends Controller{
         await Controller.tryCatch(async (req, res) => {
             const { id } = req.params;
             await this.categoriaServices.delete(Number(id));
-            res.status(200).json({ message: "categoria removido com sucesso" });
+            res.status(200).json({ message: "categoria removida com sucesso" });
         }, req, res, next);
     }
 

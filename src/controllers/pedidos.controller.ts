@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { Controller } from "./base.controller";
 import { NextFunction, Request, Response} from "express";
 import PedidoServices from "../services/pedidos.service";
-import { InternalServerError, NotFoundError } from "../shared/middlewares/error";
+import { BadRequestError, NotFoundError } from "../shared/middlewares/error";
 
 @injectable()
 class PedidoController extends Controller{
@@ -12,7 +12,6 @@ class PedidoController extends Controller{
     public async listarTodos(req: Request, res: Response, next: NextFunction): Promise<void> {
         await Controller.tryCatch(async (req, res) => {
             const pedidos = await this.pedidosServices.getAll();
-            if(!pedidos) throw new InternalServerError('Algum erro interno no servidor ocorreu');
             res.status(200).json(pedidos);
         }, req, res, next);
     }
@@ -37,13 +36,10 @@ class PedidoController extends Controller{
     }
 
     public async atualizarpedido(req: Request, res: Response, next: NextFunction): Promise<void> {
-        await Controller.tryCatch(async (req, res, next) => {
+        await Controller.tryCatch(async (req, res) => {
             const { id } = req.params;
             const atualizado = await this.pedidosServices.update(Number(id), req.body);
-            if (!atualizado) {
-                return next(new Error('pedido não encontrado ou sem alterações'));
-            }
-            res.status(200).json({ message: "pedido atualizado com sucesso" });
+            res.status(200).json(atualizado);
         }, req, res, next);
     }
 
@@ -57,12 +53,10 @@ class PedidoController extends Controller{
     }
 
     public async criarPedidoApartirDeCarrinho(req: Request, res: Response, next: NextFunction): Promise<void> {
-        await Controller.tryCatch(async (req, res, next) => {
+        await Controller.tryCatch(async (req, res) => {
             const { carrinhoId, delivery, discount } = req.body;
             const pedidoCriado = await this.pedidosServices.createPedido(Number(carrinhoId),Number(delivery),Number(discount));
-            if (!pedidoCriado) {
-                return next(new Error('pedido não pode ser criado utilizando essa referencia.'));
-            }
+            if (!pedidoCriado) throw new BadRequestError('pedido não pode ser criado utilizando essa referencia.');
             res.status(201).json(pedidoCriado);
         }, req, res, next);
     }

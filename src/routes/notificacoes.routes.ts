@@ -82,12 +82,12 @@ const notificacoesController = container.get<NotificacaoController>(NotificacaoC
  * @swagger
  * /notificacoes:
  *   get:
- *     summary: Lista todos as notificações presentes na aplicação
- *     description: Retorna uma lista de todos as notificações no sistema.
+ *     summary: Lista todas as notificações presentes na aplicação
+ *     description: Retorna uma lista de todas as notificações no sistema.
  *     tags: [Notificações]
  *     responses:
  *       200:
- *         description: Lista de usuários
+ *         description: Lista de notificações
  *         content:
  *           application/json:
  *             schema:
@@ -95,14 +95,27 @@ const notificacoesController = container.get<NotificacaoController>(NotificacaoC
  *               items:
  *                 type: object
  *                 properties:
- *                   id:
+ *                   notificacaoId:
  *                     type: integer
- *                   nome:
+ *                     example: 1
+ *                   mensagem:
  *                     type: string
- *                   cpf:
+ *                     example: "Sua encomenda foi enviada"
+ *                   status:
  *                     type: string
- *                   email:
+ *                     example: "pendente"
+ *                   dataEnvio:
  *                     type: string
+ *                     format: date-time
+ *                     example: "2025-04-30T14:48:00.000Z"
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *                     example: "2025-05-05T23:13:27.000Z"
+ *                   updatedAt:
+ *                     type: string
+ *                     format: date-time
+ *                     example: "2025-05-05T23:13:27.000Z"
  *       500:
  *         description: Erro interno no servidor
  */
@@ -112,37 +125,50 @@ router.get("/", authenticate, authorize([TipoUsuario.CLIENTE,TipoUsuario.ADMIN])
  * @swagger
  * /notificacoes/{id}:
  *   get:
- *     summary: Retorna um usuário específico
- *     description: Retorna os detalhes de um usuário com base no ID fornecido.
+ *     summary: Retorna uma notificação específica
+ *     description: Retorna os detalhes de uma notificação com base no ID fornecido.
  *     tags: [Notificações]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: O ID do usuário que você deseja buscar.
+ *         description: O ID da notificação que você deseja buscar.
  *         schema:
  *           type: integer
  *           example: 1
  *     responses:
  *       200:
- *         description: Usuário encontrado
+ *         description: Notificação encontrada
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 id:
+ *                 notificacaoId:
  *                   type: integer
- *                 nome:
+ *                   example: 1
+ *                 mensagem:
  *                   type: string
- *                 cpf:
+ *                   example: "Sua encomenda foi enviada"
+ *                 status:
  *                   type: string
- *                 email:
+ *                   example: "pendente"
+ *                 dataEnvio:
  *                   type: string
+ *                   format: date-time
+ *                   example: "2025-04-30T14:48:00.000Z"
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-05-05T23:13:27.000Z"
+ *                 updatedAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-05-05T23:13:27.000Z"
  *       400:
  *         description: ID inválido
  *       404:
- *         description: Usuário não encontrado
+ *         description: Notificação não encontrada
  *       500:
  *         description: Erro interno no servidor
  */
@@ -171,14 +197,27 @@ router.get("/:id", authenticate, authorize([TipoUsuario.CLIENTE,TipoUsuario.ADMI
  *             schema:
  *               type: object
  *               properties:
- *                 id:
+ *                 notificacaoId:
  *                   type: integer
- *                 nome:
+ *                   example: 1
+ *                 mensagem:
  *                   type: string
- *                 cpf:
+ *                   example: "Sua encomenda foi enviada"
+ *                 status:
  *                   type: string
- *                 email:
+ *                   example: "pendente"
+ *                 dataEnvio:
  *                   type: string
+ *                   format: date-time
+ *                   example: "2025-04-30T14:48:00.000Z"
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-05-05T23:13:27.000Z"
+ *                 updatedAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-05-05T23:13:27.000Z"
  *       400:
  *         description: ID inválido
  *       404:
@@ -209,8 +248,26 @@ router.get("/usuarios/:id", authenticate, authorize([TipoUsuario.CLIENTE,TipoUsu
  *               type: object
  *               properties:
  *                 notificacaoId:
- *                   type: number
+ *                   type: integer
  *                   example: 1
+ *                 mensagem:
+ *                   type: string
+ *                   example: "Sua encomenda foi enviada"
+ *                 status:
+ *                   type: string
+ *                   example: "pendente"
+ *                 dataEnvio:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-04-30T14:48:00.000Z"
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-05-05T23:13:27.000Z"
+ *                 updatedAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-05-05T23:13:27.000Z"
  *       400:
  *         $ref: '#/components/responses/BadRequestError'
  *       401:
@@ -229,6 +286,7 @@ router.post("/", authenticate, authorize([TipoUsuario.ADMIN]),validateSchema(Cre
  * /notificacoes/{id}:
  *   put:
  *     summary: Atualiza uma notificação
+ *     description: Atualiza os dados de uma notificação existente com base no ID fornecido.
  *     tags: [Notificações]
  *     parameters:
  *       - in: path
@@ -245,8 +303,34 @@ router.post("/", authenticate, authorize([TipoUsuario.ADMIN]),validateSchema(Cre
  *           schema:
  *             $ref: '#/components/schemas/UpdateNotificacaoDto'
  *     responses:
- *       201:
+ *       200:
  *         description: Notificação atualizada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 notificacaoId:
+ *                   type: integer
+ *                   example: 1
+ *                 mensagem:
+ *                   type: string
+ *                   example: "Sua encomenda foi enviada"
+ *                 status:
+ *                   type: string
+ *                   example: "pendente"
+ *                 dataEnvio:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-04-30T14:48:00.000Z"
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-05-05T23:13:27.000Z"
+ *                 updatedAt:
+ *                   type: string
+ *                   format: date-time
+ *                   example: "2025-05-05T23:14:24.000Z"
  *       400:
  *         $ref: '#/components/responses/BadRequestError'
  *       401:

@@ -21,7 +21,7 @@ class UsuarioController extends Controller {
                 const { email, password, client_type } = req.body;
 
                 if (!["web", "mobile"].includes(client_type)) {
-                    throw new BadRequestError("Client type inválido");
+                    throw new BadRequestError("client type inválido");
                 }
 
                 const { accessToken, refreshToken } =

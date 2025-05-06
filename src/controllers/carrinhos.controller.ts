@@ -5,135 +5,68 @@ import CarrinhoServices from "../services/carrinhos.service";
 
 @injectable()
 class CarrinhoController extends Controller {
-  constructor(
-    @inject(CarrinhoServices) private readonly carrinhoServices: CarrinhoServices
-  ) {
+  constructor(@inject(CarrinhoServices) private readonly carrinhoServices: CarrinhoServices) {
     super();
   }
-  public async listarTodos(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  public async listarTodos(req: Request,res: Response,next: NextFunction): Promise<void> {
     await Controller.tryCatch(
       async (req, res) => {
         const carrinhos = await this.carrinhoServices.getAll();
         res.status(200).json(carrinhos);
-      },
-      req,
-      res,
-      next
-    );
+      },req,res,next);
   }
 
-  public async buscarPorId(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  public async buscarPorId(req: Request,res: Response,next: NextFunction): Promise<void> {
     await Controller.tryCatch(
       async (req, res) => {
         const { id } = req.params;
         const carrinhos = await this.carrinhoServices.getById(Number(id));
         res.status(200).json(carrinhos);
-      },
-      req,
-      res,
-      next
-    );
+      },req,res,next);
   }
 
-  public async buscarPorUsuarioId(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  public async buscarPorUsuarioId(req: Request,res: Response,next: NextFunction): Promise<void> {
     await Controller.tryCatch(
       async (req, res) => {
         const { id } = req.params;
-        const carrinho =
-          await this.carrinhoServices.getCarrinhoWithVariacoesByUsuarioId(
-            Number(id)
-          );
+        const carrinho = await this.carrinhoServices.getCarrinhoWithVariacoesByUsuarioId(Number(id));
         res.status(200).json(carrinho);
-      },
-      req,
-      res,
-      next
-    );
+      },req,res,next);
   }
 
-  public async cadastrar(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  public async cadastrar(req: Request,res: Response,next: NextFunction): Promise<void> {
     await Controller.tryCatch(
       async (req, res) => {
         const carrinho = await this.carrinhoServices.create(req.body);
         res.status(201).json(carrinho);
-      },
-      req,
-      res,
-      next
-    );
+      },req,res,next);
   }
 
-  public async atualizarCarrinho(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  public async atualizarCarrinho(req: Request,res: Response,next: NextFunction): Promise<void> {
     await Controller.tryCatch(
       async (req, res) => {
         const { id } = req.params;
-        const atualizado = await this.carrinhoServices.update(
-          Number(id),
-          req.body
-        );
+        const atualizado = await this.carrinhoServices.update(Number(id),req.body);
         res.status(200).json(atualizado);
-      },
-      req,
-      res,
-      next
-    );
+      },req,res,next);
   }
 
-  public async deletarCarrinho(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  public async deletarCarrinho(req: Request,res: Response,next: NextFunction): Promise<void> {
     await Controller.tryCatch(
       async (req, res) => {
         const { id } = req.params;
         await this.carrinhoServices.delete(Number(id));
         res.status(200).json({ message: "carrinho removido com sucesso" });
-      },
-      req,
-      res,
-      next
-    );
+      },req,res,next);
   }
 
-  public async adicionarProdutoNoCarrinho(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  public async adicionarProdutoNoCarrinho(req: Request,res: Response,next: NextFunction): Promise<void> {
     await Controller.tryCatch(
       async (req, res) => {
         const { usuarioId, variacaoId } = req.body;
-        const carrinho = await this.carrinhoServices.adicionarProdutoCarrinho(
-          Number(usuarioId),
-          Number(variacaoId)
-        );
+        const carrinho = await this.carrinhoServices.adicionarProdutoCarrinho(Number(usuarioId),Number(variacaoId));
         res.status(200).json(carrinho);
-      },
-      req,
-      res,
-      next
-    );
+      },req,res,next);
   }
 }
 export default CarrinhoController;
